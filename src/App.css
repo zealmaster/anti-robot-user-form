@@ -31,10 +31,11 @@ label {
   flex-direction: column;
   margin-bottom: 30px;
   font-weight: var(--font-weight-heading);
+  color: var(--secondary-color);
 }
 
 input {
-  border: 1px solid var(--secondary-color);
+  border: 0.5px solid var(--secondary-color);
   border-radius: 5px;
   padding: 10px 10px;
   font-size: var(--regular-font);
