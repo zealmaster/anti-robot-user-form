@@ -16,7 +16,7 @@
   --font-weight-heading: 700;
 
   /* Transitions */
-  --transition: all 0.5s ease-in-out;
+  --transition: background-color 0.3s ease-in-out;
   --duration: 0.5s;
   --easing-fxtn: ease-in-out;
 }

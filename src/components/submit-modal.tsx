@@ -63,7 +63,7 @@ export function SubmitModal(params: { answers: string[] }) {
             onChange={(e) => checkInputAnswer(e.target.value, 2)}
           />
           </label>
-          <button onClick={handleSubmitModal}>Answer</button>
+          <button className="button" onClick={handleSubmitModal}>Answer</button>
         </div>
     </div>
 

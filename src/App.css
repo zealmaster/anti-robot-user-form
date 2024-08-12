@@ -54,8 +54,9 @@ input {
   margin-top: 30px;
   border: 0;
   color: var(--bg-color);
-  font-size: var(--sub-heading-font);
+  font-size: var(--regular-font);
   font-weight: var(--font-weight-heading);
+  cursor: pointer; 
   transition: var(--transition);
 }
 
@@ -100,27 +101,8 @@ input {
   margin-bottom: 10px;
 }
 
-/* .modal input[type="text"] {
-  width: 100%; 
-  padding: 10px;
-  border: 0.5px solid var(--secondary-color);
-  border-radius: 4px;
-  margin-bottom: 15px;
-  font-size: 16px; 
-} */
-
 .modal button {
-  width: 100%; 
-  padding: 10px; 
   background-color: var(--tertiary-color);
-  color: white;
-  border: none; 
-  border-radius: 4px;
-  font-size: 16px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
-  margin-top: 30px;
-  border-radius: 30px;
 }
 
 .modal button:hover {

@@ -144,7 +144,7 @@ function App() {
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
           /></label>
-          <button onClick={handleEquationSubmit}>Answer</button>
+          <button className="button" onClick={handleEquationSubmit}>Answer</button>
         </div>
       )}
 
