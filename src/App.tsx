@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { SubmitModal } from "./components/submit-modal";
 
@@ -29,6 +29,16 @@ function App() {
   const [submitButtonDisabled, setSubmitButtonEnabled] = useState(true);
   const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    // Check if submit button should be enabled
+    if (inputsFilled() && answers.length === 3) {
+      setSubmitButtonEnabled(false);
+    } else {
+      setSubmitButtonEnabled(true);
+    }
+  }, [formInputs, answers]);
+
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormInputs((prev) => ({
@@ -37,10 +47,15 @@ function App() {
     }));
   };
 
+  const inputsFilled = (): boolean => {
+    return Object.values(formInputs).every((value) => value.trim() !== "");
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formInputs);
     //To do: Form submit button will only be active when the input fields are not empty
+   
     setsubmitModalOpen(true);
   };
 
@@ -53,7 +68,6 @@ function App() {
       setUserAnswer("");
       setErrorMessage("");
       console.log(answers);
-      if (answers.length === 3) setSubmitButtonEnabled(false);
     } else {
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
@@ -125,11 +139,9 @@ function App() {
           />
         </label>
 
-        {/* <div className="button"> */}
           <button className={submitButtonDisabled ? 'buttonDisabled' : 'button'} type="submit" disabled={submitButtonDisabled}>
             Submit
           </button>
-        {/* </div> */}
       </form>
 
       {/* Equation input modal. This can be move to a react component. */}
