@@ -125,11 +125,11 @@ function App() {
           />
         </label>
 
-        <div className="button">
-          <button type="submit" disabled={submitButtonDisabled}>
+        {/* <div className="button"> */}
+          <button className={submitButtonDisabled ? 'buttonDisabled' : 'button'} type="submit" disabled={submitButtonDisabled}>
             Submit
           </button>
-        </div>
+        {/* </div> */}
       </form>
 
       {/* Equation input modal. This can be move to a react component. */}
@@ -137,11 +137,13 @@ function App() {
         <div className="modal">
           <p>Human? Solve: {equation}</p>
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
-          <input
+          <label htmlFor="userAnswer">
+            <input
+            name="userAnswer"
             type="text"
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
-          />
+          /></label>
           <button onClick={handleEquationSubmit}>Answer</button>
         </div>
       )}

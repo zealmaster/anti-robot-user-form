@@ -33,32 +33,41 @@ export function SubmitModal(params: { answers: string[] }) {
   };
 
   return (
-    <div>
-      {modalOpen && (
+    <>
+    {modalOpen && (
+      <div className="modal-wrapper">
         <div className="modal">
           <p>A smart human? Provide all the previous answers</p>
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
-          <input
+          <label htmlFor="firstAnswer">
+            <input
             name="firstAnswer"
             type="text"
             value={userAnswer[0]}
             onChange={(e) => checkInputAnswer(e.target.value, 0)}
           />
-          <input
+          </label>
+          <label htmlFor="secondAnswer">
+            <input
             name="secondAnswer"
             type="text"
             value={userAnswer[1]}
             onChange={(e) => checkInputAnswer(e.target.value, 1)}
           />
-          <input
+          </label>
+          <label htmlFor="thirdAnswer">
+            <input
             name="thirdAnswer"
             type="text"
             value={userAnswer[2]}
             onChange={(e) => checkInputAnswer(e.target.value, 2)}
           />
+          </label>
           <button onClick={handleSubmitModal}>Answer</button>
         </div>
-      )}
     </div>
+
+      )}
+    </>
   );
 }

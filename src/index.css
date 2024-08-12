@@ -2,6 +2,7 @@
   /* Colors */
   --primary-color: #fd4167;
   --secondary-color: #5685a9;
+  --tertiary-color: #007bff;
   --bg-color: #ffffff;
   --bg: linear-gradient(180deg, #ffffff 10%, #5685a970 70%, #fd416770 95%);
 
