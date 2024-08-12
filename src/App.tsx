@@ -16,14 +16,18 @@ function App() {
     email: "",
     password: "",
   });
-  const [inputEnabled, setInputEnabled] = useState<boolean[]>([false, false, false]);
+  const [inputEnabled, setInputEnabled] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
   const [equation, setEquation] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [submitButtonDisabled, setSubmitButtonEnabled] = useState(true);
-  const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false)
+  const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +41,7 @@ function App() {
     e.preventDefault();
     console.log(formInputs);
     //To do: Form submit button will only be active when the input fields are not empty
-    setsubmitModalOpen(true)
+    setsubmitModalOpen(true);
   };
 
   //This function can be moved to InputModal component
@@ -122,10 +126,7 @@ function App() {
         </label>
 
         <div className="button">
-          <button
-            type="submit"
-            disabled={submitButtonDisabled}
-          >
+          <button type="submit" disabled={submitButtonDisabled}>
             Submit
           </button>
         </div>
@@ -145,11 +146,7 @@ function App() {
         </div>
       )}
 
-{submitModalOpen && (
-        <SubmitModal
-          answers={answers}
-        />
-      )}
+      {submitModalOpen && <SubmitModal answers={answers} />}
     </main>
   );
 }
