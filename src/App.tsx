@@ -77,9 +77,11 @@ function App() {
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
     const num2 = Math.floor(Math.random() * 10);
-    const answer = num1 + num2;
-    setEquation(`${num1} + ${num2}`);
-    setCorrectAnswer(answer);
+    const num3 = Math.floor(Math.random() * 10);
+    const num4 = Math.floor(Math.random() * 10);
+    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(2);
+    setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
+    setCorrectAnswer(parseInt(answer));
   };
 
   const handleOnInputFocus = (index: number) => {
