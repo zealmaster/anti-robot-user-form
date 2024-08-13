@@ -40,7 +40,7 @@ function App() {
     setInputEnabled([
       (formInputs.name.length > 0),
       !(formInputs.name.length > 0),
-      !(formInputs.name.length > 0) && !(formInputs.email.length > 0),
+      !(formInputs.email.length > 0),
     ]);
   }, [formInputs]);
 
@@ -50,12 +50,6 @@ function App() {
       ...prev,
       [name]: value,
     }));
-    setInputEnabled([
-      !(formInputs.name.length > 0),
-      (formInputs.name.length > 0),
-      (formInputs.email.length > 0),
-    ]);
-    console.log(inputEnabled)
   };
 
   const inputsFilled = (): boolean => {
@@ -66,7 +60,6 @@ function App() {
     e.preventDefault();
     console.log(formInputs);
     //To do: Form submit button will only be active when the input fields are not empty
-
     setsubmitModalOpen(true);
   };
 
@@ -75,16 +68,14 @@ function App() {
     if (parseInt(userAnswer, 10) === correctAnswer) {
       answers.push(userAnswer);
       setModalOpen(false);
-      // setInputEnabled([false, false, false]);
-      setUserAnswer("");
-      setErrorMessage("");
-      console.log(answers);
       setInputEnabled([
-        (formInputs.name.length > 0),
+        false,
         !(formInputs.name.length > 0),
         !(formInputs.email.length > 0),
       ]);
-      console.log(inputEnabled)
+      setUserAnswer("");
+      setErrorMessage("");
+      console.log(answers);
     } else {
       generateEquation()
       setErrorMessage("Incorrect answer, try again.");
