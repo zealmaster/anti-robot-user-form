@@ -45,6 +45,7 @@ export function SubmitModal(params: { answers: string[] }) {
             type="text"
             value={userAnswer[0]}
             onChange={(e) => checkInputAnswer(e.target.value, 0)}
+            placeholder="Answer to first question"
           />
           </label>
           <label htmlFor="secondAnswer">
@@ -53,6 +54,7 @@ export function SubmitModal(params: { answers: string[] }) {
             type="text"
             value={userAnswer[1]}
             onChange={(e) => checkInputAnswer(e.target.value, 1)}
+            placeholder="Answer to second question"
           />
           </label>
           <label htmlFor="thirdAnswer">
@@ -61,6 +63,8 @@ export function SubmitModal(params: { answers: string[] }) {
             type="text"
             value={userAnswer[2]}
             onChange={(e) => checkInputAnswer(e.target.value, 2)}
+            placeholder="Answer to third question"
+
           />
           </label>
           <button className="button" onClick={handleSubmitModal}>Answer</button>
