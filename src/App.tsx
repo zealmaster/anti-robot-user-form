@@ -50,6 +50,12 @@ function App() {
       ...prev,
       [name]: value,
     }));
+    setInputEnabled([
+      !(formInputs.name.length > 0),
+      (formInputs.name.length > 0),
+      (formInputs.email.length > 0),
+    ]);
+    console.log(inputEnabled)
   };
 
   const inputsFilled = (): boolean => {
@@ -69,10 +75,16 @@ function App() {
     if (parseInt(userAnswer, 10) === correctAnswer) {
       answers.push(userAnswer);
       setModalOpen(false);
-      setInputEnabled([false, false, false]);
+      // setInputEnabled([false, false, false]);
       setUserAnswer("");
       setErrorMessage("");
       console.log(answers);
+      setInputEnabled([
+        (formInputs.name.length > 0),
+        !(formInputs.name.length > 0),
+        !(formInputs.email.length > 0),
+      ]);
+      console.log(inputEnabled)
     } else {
       generateEquation()
       setErrorMessage("Incorrect answer, try again.");
@@ -96,32 +108,11 @@ function App() {
     generateEquation();
     if (answers[index] === undefined) {
       setInputEnabled((prev) => {
-        prev = [true, true, true]
         const updated = [...prev];
         updated[index] = true;
         return updated;
       });
       setModalOpen(true);
-    }
-  };
-
-
-  const checkForEmptyField = (value: string, index: number) => {
-    console.log(index, value)
-    if (value === "") {
-      console.log("Enter something")
-      if (inputEnabled[index] === false) {
-        setInputEnabled((prev) => {
-          prev = [true, true, true]
-          const updated = [...prev];
-          updated[index] = false;
-          return updated;
-        });
-      }
-      const timeOut = setTimeout(() => {
-           answers.length = 0;
-      }, 20000);
-      clearTimeout(timeOut);
     }
   };
 
@@ -141,7 +132,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
-            onFocus={() => checkForEmptyField(formInputs.name, 0)}
           />
         </label>
 
@@ -155,7 +145,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
-            onFocus={() => checkForEmptyField(formInputs.email, 1)}
           />
         </label>
 
@@ -169,7 +158,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
-            onFocus={() => checkForEmptyField(formInputs.password, 2)}
           />
         </label>
 
