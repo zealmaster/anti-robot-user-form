@@ -1,5 +1,5 @@
-import React from 'react';
-import '../App.css';
+import React from "react";
+import "../App.css";
 
 export function SuccessPage() {
   return (
@@ -11,9 +11,9 @@ export function SuccessPage() {
           <br />
           Thank you for confirming you're not a robot!
         </p>
-        <button 
-          className="return-home-button" 
-          onClick={() => window.location.href = '/' /* Example redirect */}
+        <button
+          className="return-home-button"
+          onClick={() => (window.location.href = "/")}
         >
           Return to Home
         </button>

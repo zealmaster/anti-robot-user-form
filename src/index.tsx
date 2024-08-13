@@ -1,15 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { SuccessPage } from './components/SuccessPage';
-import { SubmitModal } from './components/submit-modal';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import App from "./App";
+import { SuccessPage } from "./components/SuccessPage";
+import "./index.css";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-     <SuccessPage/>
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/success" element={<SuccessPage />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
