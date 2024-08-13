@@ -36,9 +36,14 @@ function App() {
     } else {
       setSubmitButtonEnabled(true);
     }
-  }, [formInputs, answers]);
 
-  
+    setInputEnabled([
+      (formInputs.name.length > 0),
+      !(formInputs.name.length > 0),
+      !(formInputs.name.length > 0) && !(formInputs.email.length > 0),
+    ]);
+  }, [formInputs]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormInputs((prev) => ({
@@ -55,7 +60,7 @@ function App() {
     e.preventDefault();
     console.log(formInputs);
     //To do: Form submit button will only be active when the input fields are not empty
-   
+
     setsubmitModalOpen(true);
   };
 
@@ -69,6 +74,7 @@ function App() {
       setErrorMessage("");
       console.log(answers);
     } else {
+      generateEquation()
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
     }
@@ -79,7 +85,9 @@ function App() {
     const num2 = Math.floor(Math.random() * 10);
     const num3 = Math.floor(Math.random() * 10);
     const num4 = Math.floor(Math.random() * 10);
-    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(2);
+    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(
+      2
+    );
     setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
     setCorrectAnswer(parseInt(answer));
   };
@@ -88,11 +96,32 @@ function App() {
     generateEquation();
     if (answers[index] === undefined) {
       setInputEnabled((prev) => {
+        prev = [true, true, true]
         const updated = [...prev];
         updated[index] = true;
         return updated;
       });
       setModalOpen(true);
+    }
+  };
+
+
+  const checkForEmptyField = (value: string, index: number) => {
+    console.log(index, value)
+    if (value === "") {
+      console.log("Enter something")
+      if (inputEnabled[index] === false) {
+        setInputEnabled((prev) => {
+          prev = [true, true, true]
+          const updated = [...prev];
+          updated[index] = false;
+          return updated;
+        });
+      }
+      const timeOut = setTimeout(() => {
+           answers.length = 0;
+      }, 20000);
+      clearTimeout(timeOut);
     }
   };
 
@@ -112,6 +141,7 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
+            onFocus={() => checkForEmptyField(formInputs.name, 0)}
           />
         </label>
 
@@ -125,6 +155,7 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
+            onFocus={() => checkForEmptyField(formInputs.email, 1)}
           />
         </label>
 
@@ -138,12 +169,17 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
+            onFocus={() => checkForEmptyField(formInputs.password, 2)}
           />
         </label>
 
-          <button className={submitButtonDisabled ? 'buttonDisabled' : 'button'} type="submit" disabled={submitButtonDisabled}>
-            Submit
-          </button>
+        <button
+          className={submitButtonDisabled ? "buttonDisabled" : "button"}
+          type="submit"
+          disabled={submitButtonDisabled}
+        >
+          Submit
+        </button>
       </form>
 
       {/* Equation input modal. This can be move to a react component. */}
@@ -153,12 +189,15 @@ function App() {
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
           <label htmlFor="userAnswer">
             <input
-            name="userAnswer"
-            type="text"
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-          /></label>
-          <button className="button" onClick={handleEquationSubmit}>Answer</button>
+              name="userAnswer"
+              type="text"
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+            />
+          </label>
+          <button className="button" onClick={handleEquationSubmit}>
+            Answer
+          </button>
         </div>
       )}
 
