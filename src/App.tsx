@@ -72,7 +72,10 @@ import { TimedModal } from "./components/timedModal";
 
   const handleEquationSubmit = () => {
     if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
-      answers.push(userAnswer);
+      // answers.push(userAnswer);
+      const updatedAnswers = [...answers];
+      updatedAnswers[currentIndex] = userAnswer;
+      setAnswers(updatedAnswers);
       setModalOpen(false);
       setInputEnabled([
         false,
@@ -86,6 +89,10 @@ import { TimedModal } from "./components/timedModal";
       generateEquation()
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
+      setAnswerAttempt(answerAttempt + 1)
+      if (answerAttempt === 3) {
+        setShowResponseModal(true);
+      }
     }
   };
     
@@ -103,7 +110,6 @@ import { TimedModal } from "./components/timedModal";
   };
 
     const handleOnInputFocus = (index: number) => {
-      console.log('I am running for', index);
       setCurrentIndex(index);
       generateEquation();
       if (answers[index] === undefined) {
@@ -116,18 +122,20 @@ import { TimedModal } from "./components/timedModal";
       }
     };
 
-    const startTimer =( index: number) => {
-      console.log('Timer started for', index);
+    const startTimer = (index: number) => {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
-        //@ts-ignore
-        answers[index] = undefined;
-          // const updatedAnswers = [...answers];
-          // updatedAnswers[index] = undefined;
-          // setAnswers(updatedAnswers);
-        console.log('Timer for', index, 'completed');
+        setFormInputs((prev) => ({
+          ...prev,
+          [Object.keys(formInputs)[index] as keyof Form]: "",
+        }));
+
+        const updatedAnswers = [...answers];
+        // @ts-ignore
+        updatedAnswers[index] = undefined;
+        setAnswers(updatedAnswers);
       }, 10000);
-    }
+    };
 
 
     //To do: Create a function to handle maximum number of try for solving equation and providing the answers
