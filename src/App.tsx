@@ -39,7 +39,7 @@ import { TimedModal } from "./components/timedModal";
 
 
   useEffect(() => {
-    if (inputsFilled() && answers.length === 3) {
+    if (inputsFilled()) {
       setSubmitButtonEnabled(false);
     } else {
       setSubmitButtonEnabled(true);
@@ -60,16 +60,6 @@ import { TimedModal } from "./components/timedModal";
     }));
   };
 
-    useEffect(() => {
-      // Check if submit button should be enabled
-      if (inputsFilled() && answers.length === 3) {
-        setSubmitButtonEnabled(false);
-      } else {
-        setSubmitButtonEnabled(true);
-      }
-    }, [formInputs, answers]);
-
-
     const inputsFilled = (): boolean => {
       return Object.values(formInputs).every((value) => value.trim() !== "");
     };
@@ -80,23 +70,8 @@ import { TimedModal } from "./components/timedModal";
     setSubmitModalOpen(true);
   };
 
-
-    const updateAnswers = (index: number) => {
-      const updatedAnswers = [...answers];
-      updatedAnswers[index] = userAnswer;
-      return updatedAnswers;
-    }
-
-    const enableInput = (index: number, enabled: boolean) => {
-      setInputEnabled((prev) => {
-        const updated = [...prev];
-        updated[index] = false;
-        return updated;
-      });
-    }
-
   const handleEquationSubmit = () => {
-    if (parseInt(userAnswer, 10) === correctAnswer) {
+    if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
       answers.push(userAnswer);
       setModalOpen(false);
       setInputEnabled([
@@ -106,40 +81,14 @@ import { TimedModal } from "./components/timedModal";
       ]);
       setUserAnswer("");
       setErrorMessage("");
+      startTimer(currentIndex);
     } else {
       generateEquation()
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
     }
   };
-    //This function can be moved to InputModal component
-    // const handleEquationSubmit = () => {
-    //   console.log(currentIndex);
-    //   if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
-    //     const updatedAnswers = [...answers];
-    //     updatedAnswers[currentIndex] = userAnswer;
-    //     setAnswers(updatedAnswers);
-    //     enableInput(currentIndex, false);
-    //     setInputEnabled((prev) => {
-    //       const updated = [...prev];
-    //       updated[currentIndex] = false;
-    //       return updated;
-    //     });
-    //     setModalOpen(false);
-    //     setUserAnswer("");
-    //     setErrorMessage("");
-    //     startTimer(currentIndex);
-    //     console.log("answers", updatedAnswers, userAnswer);
-    //   } else {
-    //     setErrorMessage("Incorrect answer, try again.");
-    //     setUserAnswer("");
-    //     setAnswerAttempt(answerAttempt + 1);
-    //     if (answerAttempt === 3) {
-    //       setModalOpen(false);
-    //       setShowResponseModal(true);
-    //     }
-    //   }
-    // };
+    
 
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
@@ -153,21 +102,8 @@ import { TimedModal } from "./components/timedModal";
     setCorrectAnswer(parseInt(answer));
   };
 
-    // const handleOnInputFocus = (index: number) => {
-    //   generateEquation();
-    //     if (answers[index] === undefined) {
-    //     console.log('input', answers[index]);
-    //     setInputEnabled((prev) => {
-    //       const updated = [...prev];
-    //       updated[index] = true;
-    //     console.log('inputUpdated', updated);
-    //       return updated;
-    //     });
-    //     setModalOpen(true);
-    //   }
-    // };
-
     const handleOnInputFocus = (index: number) => {
+      console.log('I am running for', index);
       setCurrentIndex(index);
       generateEquation();
       if (answers[index] === undefined) {
@@ -184,12 +120,11 @@ import { TimedModal } from "./components/timedModal";
       console.log('Timer started for', index);
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
-        if (userAnswer === "") {
-          const updatedAnswers = [...answers];
-          //@ts-ignore
-          updatedAnswers[index] = undefined;
-          setAnswers(updatedAnswers);
-        }
+        //@ts-ignore
+        answers[index] = undefined;
+          // const updatedAnswers = [...answers];
+          // updatedAnswers[index] = undefined;
+          // setAnswers(updatedAnswers);
         console.log('Timer for', index, 'completed');
       }, 10000);
     }

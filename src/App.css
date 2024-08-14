@@ -177,7 +177,6 @@ input {
   outline: none; 
 }
 
-<<<<<<< HEAD
 .timed-modal {
   width: 300px; 
   max-width: 90%; 
@@ -194,8 +193,6 @@ input {
 }
 
 
-=======
->>>>>>> 60b576e0ef81beba22317c96a5556bffc178bcd6
 @media screen and (min-width: 320px) {
   main {
     padding: 20px;
