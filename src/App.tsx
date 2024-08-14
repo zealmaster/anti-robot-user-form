@@ -63,6 +63,20 @@
       setsubmitModalOpen(true);
     };
 
+    const updateAnswers = (index: number) => {
+      const updatedAnswers = [...answers];
+      updatedAnswers[index] = userAnswer;
+      return updatedAnswers;
+    }
+
+    const enableInput = (index: number, enabled: boolean) => {
+      setInputEnabled((prev) => {
+        const updated = [...prev];
+        updated[index] = false;
+        return updated;
+      });
+    }
+
     //This function can be moved to InputModal component
     const handleEquationSubmit = () => {
       console.log(currentIndex);
@@ -70,6 +84,12 @@
         const updatedAnswers = [...answers];
         updatedAnswers[currentIndex] = userAnswer;
         setAnswers(updatedAnswers);
+        enableInput(currentIndex, false);
+        setInputEnabled((prev) => {
+          const updated = [...prev];
+          updated[currentIndex] = false;
+          return updated;
+        });
         setModalOpen(false);
         setUserAnswer("");
         setErrorMessage("");
@@ -115,7 +135,6 @@
         setInputEnabled((prev) => {
           const updated = [...prev];
           updated[index] = true;
-          console.log(updated);
           return updated;
         });
         setModalOpen(true);
@@ -126,12 +145,14 @@
       console.log('Timer started for', index);
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
-        const updatedAnswers = [...answers];
-        //@ts-ignore
-        updatedAnswers[index] = undefined;
-        setAnswers(updatedAnswers);
+        if (userAnswer === "") {
+          const updatedAnswers = [...answers];
+          //@ts-ignore
+          updatedAnswers[index] = undefined;
+          setAnswers(updatedAnswers);
+        }
         console.log('Timer for', index, 'completed');
-      }, 3000);
+      }, 10000);
     }
 
 
