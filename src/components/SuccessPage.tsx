@@ -6,11 +6,12 @@ export function SuccessPage() {
     <div className="success-page">
       <div className="modal">
         <h1 className="title">Congratulations!</h1>
-        <p className="description">
-          You've successfully completed the verification.
-          <br />
+        <div className="description">
+          <p>Form completed successfully. Easy peasy, right? </p>
+          <p>{localStorage.getItem("name")}, you are humam after all.</p>
           Thank you for confirming you're not a robot!
-        </p>
+          See you around.
+        </div>
         <button
           className="return-home-button"
           onClick={() => (window.location.href = "/")}

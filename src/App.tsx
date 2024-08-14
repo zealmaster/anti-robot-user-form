@@ -53,6 +53,7 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    localStorage.setItem("name", formInputs.name)
     setSubmitModalOpen(true);
   };
 
