@@ -1,7 +1,8 @@
-  import React, { useEffect, useRef, useState } from "react";
-  import "./App.css";
-  import { SubmitModal } from "./components/submit-modal";
-  import { TimedModal } from "./components/timedModal";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { SubmitModal } from "./components/submit-modal";
+import "./App.css";
+import { TimedModal } from "./components/timedModal";
 
   interface Form {
     name: string;
@@ -12,7 +13,8 @@
   // export const answers: string[] = [];
 
   function App() {
-    const [formInputs, setFormInputs] = useState<Form>({
+  const navigate = useNavigate();
+  const [formInputs, setFormInputs] = useState<Form>({
       name: "",
       email: "",
       password: "",
@@ -28,13 +30,35 @@
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [submitButtonDisabled, setSubmitButtonEnabled] = useState(true);
-    const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false);
+    const [submitModalOpen, setSubmitModalOpen] = useState<boolean>(false);
     const [answerAttempt, setAnswerAttempt] = useState(1);
     const [showResponseModal, setShowResponseModal] = useState<boolean>(false);
     const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
     const [answers, setAnswers] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
+
+  useEffect(() => {
+    if (inputsFilled() && answers.length === 3) {
+      setSubmitButtonEnabled(false);
+    } else {
+      setSubmitButtonEnabled(true);
+    }
+
+    setInputEnabled([
+      (formInputs.name.length > 0),
+      !(formInputs.name.length > 0),
+      !(formInputs.email.length > 0),
+    ]);
+  }, [formInputs]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormInputs((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
     useEffect(() => {
       // Check if submit button should be enabled
@@ -45,23 +69,17 @@
       }
     }, [formInputs, answers]);
 
-    
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormInputs((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    };
 
     const inputsFilled = (): boolean => {
       return Object.values(formInputs).every((value) => value.trim() !== "");
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setsubmitModalOpen(true);
-    };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    localStorage.setItem("name", formInputs.name)
+    setSubmitModalOpen(true);
+  };
+
 
     const updateAnswers = (index: number) => {
       const updatedAnswers = [...answers];
@@ -77,42 +95,63 @@
       });
     }
 
+  const handleEquationSubmit = () => {
+    if (parseInt(userAnswer, 10) === correctAnswer) {
+      answers.push(userAnswer);
+      setModalOpen(false);
+      setInputEnabled([
+        false,
+        !(formInputs.name.length > 0),
+        !(formInputs.email.length > 0),
+      ]);
+      setUserAnswer("");
+      setErrorMessage("");
+    } else {
+      generateEquation()
+      setErrorMessage("Incorrect answer, try again.");
+      setUserAnswer("");
+    }
+  };
     //This function can be moved to InputModal component
-    const handleEquationSubmit = () => {
-      console.log(currentIndex);
-      if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
-        const updatedAnswers = [...answers];
-        updatedAnswers[currentIndex] = userAnswer;
-        setAnswers(updatedAnswers);
-        enableInput(currentIndex, false);
-        setInputEnabled((prev) => {
-          const updated = [...prev];
-          updated[currentIndex] = false;
-          return updated;
-        });
-        setModalOpen(false);
-        setUserAnswer("");
-        setErrorMessage("");
-        startTimer(currentIndex);
-        console.log("answers", updatedAnswers, userAnswer);
-      } else {
-        setErrorMessage("Incorrect answer, try again.");
-        setUserAnswer("");
-        setAnswerAttempt(answerAttempt + 1);
-        if (answerAttempt === 3) {
-          setModalOpen(false);
-          setShowResponseModal(true);
-        }
-      }
-    };
+    // const handleEquationSubmit = () => {
+    //   console.log(currentIndex);
+    //   if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
+    //     const updatedAnswers = [...answers];
+    //     updatedAnswers[currentIndex] = userAnswer;
+    //     setAnswers(updatedAnswers);
+    //     enableInput(currentIndex, false);
+    //     setInputEnabled((prev) => {
+    //       const updated = [...prev];
+    //       updated[currentIndex] = false;
+    //       return updated;
+    //     });
+    //     setModalOpen(false);
+    //     setUserAnswer("");
+    //     setErrorMessage("");
+    //     startTimer(currentIndex);
+    //     console.log("answers", updatedAnswers, userAnswer);
+    //   } else {
+    //     setErrorMessage("Incorrect answer, try again.");
+    //     setUserAnswer("");
+    //     setAnswerAttempt(answerAttempt + 1);
+    //     if (answerAttempt === 3) {
+    //       setModalOpen(false);
+    //       setShowResponseModal(true);
+    //     }
+    //   }
+    // };
 
-    const generateEquation = () => {
-      const num1 = Math.floor(Math.random() * 10);
-      const num2 = Math.floor(Math.random() * 10);
-      const answer = num1 + num2;
-      setEquation(`${num1} + ${num2}`);
-      setCorrectAnswer(answer);
-    };
+  const generateEquation = () => {
+    const num1 = Math.floor(Math.random() * 10);
+    const num2 = Math.floor(Math.random() * 10);
+    const num3 = Math.floor(Math.random() * 10);
+    const num4 = Math.floor(Math.random() * 10);
+    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(
+      2
+    );
+    setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
+    setCorrectAnswer(parseInt(answer));
+  };
 
     // const handleOnInputFocus = (index: number) => {
     //   generateEquation();
@@ -201,31 +240,44 @@
             />
           </label>
 
-            <button className={submitButtonDisabled ? 'buttonDisabled' : 'button'} type="submit" disabled={submitButtonDisabled}>
-              Submit
-            </button>
+        <button
+          className={submitButtonDisabled ? "buttonDisabled" : "button"}
+          type="submit"
+          disabled={submitButtonDisabled}
+        >
+          Submit
+        </button>
         </form>
 
-        {/* Equation input modal. This can be move to a react component. */}
-        {modalOpen && (
-          <div className="modal">
-            <p>Human? Solve: {equation}</p>
-            <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
-            <label htmlFor="userAnswer">
-              <input
+      {modalOpen && (
+        <div className="modal">
+          <p>Human? Solve: {equation}</p>
+          <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
+          <label htmlFor="userAnswer">
+            <input
               name="userAnswer"
               type="text"
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-            /></label>
-            <button className="button" onClick={handleEquationSubmit}>Answer</button>
-          </div>
-        )}
+            />
+          </label>
+          <button className="button" onClick={handleEquationSubmit}>
+            Answer
+          </button>
+        </div>
+      )}
+        {/* Equation input modal. This can be move to a react component. */}
 
-        {submitModalOpen && <SubmitModal answers={answers} />}
-        {showResponseModal && <TimedModal />}
-      </main>
-    );
-  }
+      {submitModalOpen && (
+        <SubmitModal
+          answers={answers}
+          onSuccess={() => navigate("/success")}
+        />
+      )}
+      {showResponseModal && <TimedModal />}
+
+    </main>
+  );
+}
 
   export default App;
