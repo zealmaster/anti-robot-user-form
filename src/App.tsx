@@ -37,7 +37,13 @@ function App() {
     } else {
       setSubmitButtonEnabled(true);
     }
-  }, [formInputs, answers]);
+
+    setInputEnabled([
+      (formInputs.name.length > 0),
+      !(formInputs.name.length > 0),
+      !(formInputs.email.length > 0),
+    ]);
+  }, [formInputs]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,10 +67,15 @@ function App() {
     if (parseInt(userAnswer, 10) === correctAnswer) {
       answers.push(userAnswer);
       setModalOpen(false);
-      setInputEnabled([false, false, false]);
+      setInputEnabled([
+        false,
+        !(formInputs.name.length > 0),
+        !(formInputs.email.length > 0),
+      ]);
       setUserAnswer("");
       setErrorMessage("");
     } else {
+      generateEquation()
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
     }
@@ -73,9 +84,13 @@ function App() {
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
     const num2 = Math.floor(Math.random() * 10);
-    const answer = num1 + num2;
-    setEquation(`${num1} + ${num2}`);
-    setCorrectAnswer(answer);
+    const num3 = Math.floor(Math.random() * 10);
+    const num4 = Math.floor(Math.random() * 10);
+    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(
+      2
+    );
+    setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
+    setCorrectAnswer(parseInt(answer));
   };
 
   const handleOnInputFocus = (index: number) => {
