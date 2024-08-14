@@ -115,6 +115,7 @@
         setInputEnabled((prev) => {
           const updated = [...prev];
           updated[index] = true;
+          console.log(updated);
           return updated;
         });
         setModalOpen(true);
@@ -125,6 +126,10 @@
       console.log('Timer started for', index);
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
+        const updatedAnswers = [...answers];
+        //@ts-ignore
+        updatedAnswers[index] = undefined;
+        setAnswers(updatedAnswers);
         console.log('Timer for', index, 'completed');
       }, 3000);
     }
