@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { SubmitModal } from "./components/submit-modal";
+import { TimedModal } from "./components/timedModal";
 
 interface Form {
   name: string;
@@ -28,6 +29,8 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [submitButtonDisabled, setSubmitButtonEnabled] = useState(true);
   const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false);
+  const [answerAttempt, setAnswerAttempt] = useState(1);
+  const [showResponseModal, setShowResponseModal] = useState<boolean>(false);
 
   useEffect(() => {
     // Check if submit button should be enabled
@@ -53,9 +56,6 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formInputs);
-    //To do: Form submit button will only be active when the input fields are not empty
-   
     setsubmitModalOpen(true);
   };
 
@@ -71,6 +71,12 @@ function App() {
     } else {
       setErrorMessage("Incorrect answer, try again.");
       setUserAnswer("");
+      setAnswerAttempt(answerAttempt + 1);
+      console.log(answerAttempt)
+      if (answerAttempt === 3) {
+        setModalOpen(false);
+        setShowResponseModal(true);
+      }
     }
   };
 
@@ -161,6 +167,7 @@ function App() {
       )}
 
       {submitModalOpen && <SubmitModal answers={answers} />}
+      {showResponseModal && <TimedModal />}
     </main>
   );
 }
