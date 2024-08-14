@@ -114,7 +114,8 @@ input {
 }
 
 .timed-modal {
-  width: 50%;
+  width: 300px; 
+  max-width: 90%; 
   padding: 30px;
 }
 
