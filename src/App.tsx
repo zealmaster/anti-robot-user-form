@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
+import "./App.css";
 
 interface Form {
   name: string;
@@ -11,6 +12,7 @@ interface Form {
 export const answers: string[] = [];
 
 function App() {
+  const navigate = useNavigate();
   const [formInputs, setFormInputs] = useState<Form>({
     name: "",
     email: "",
@@ -27,10 +29,9 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [submitButtonDisabled, setSubmitButtonEnabled] = useState(true);
-  const [submitModalOpen, setsubmitModalOpen] = useState<boolean>(false);
+  const [submitModalOpen, setSubmitModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check if submit button should be enabled
     if (inputsFilled() && answers.length === 3) {
       setSubmitButtonEnabled(false);
     } else {
@@ -58,12 +59,10 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formInputs);
-    //To do: Form submit button will only be active when the input fields are not empty
-    setsubmitModalOpen(true);
+    localStorage.setItem("name", formInputs.name)
+    setSubmitModalOpen(true);
   };
 
-  //This function can be moved to InputModal component
   const handleEquationSubmit = () => {
     if (parseInt(userAnswer, 10) === correctAnswer) {
       answers.push(userAnswer);
@@ -75,7 +74,6 @@ function App() {
       ]);
       setUserAnswer("");
       setErrorMessage("");
-      console.log(answers);
     } else {
       generateEquation()
       setErrorMessage("Incorrect answer, try again.");
@@ -106,8 +104,6 @@ function App() {
       setModalOpen(true);
     }
   };
-
-  //To do: Create a function to handle maximum number of try for solving equation and providing the answers
 
   return (
     <main>
@@ -161,7 +157,6 @@ function App() {
         </button>
       </form>
 
-      {/* Equation input modal. This can be move to a react component. */}
       {modalOpen && (
         <div className="modal">
           <p>Human? Solve: {equation}</p>
@@ -180,7 +175,12 @@ function App() {
         </div>
       )}
 
-      {submitModalOpen && <SubmitModal answers={answers} />}
+      {submitModalOpen && (
+        <SubmitModal
+          answers={answers}
+          onSuccess={() => navigate("/success")}
+        />
+      )}
     </main>
   );
 }
