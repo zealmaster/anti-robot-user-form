@@ -30,12 +30,6 @@ export function SubmitModal({
       onSuccess(); // Redirect to the success page
     } else {
       setErrorMessage("Incorrect answer, try again");
-      setAnswerAttempt(answerAttempt + 1)
-      if (answerAttempt === 3) {
-        setModalOpen(false);
-        setShowResponseModal(true);
-      }
-      console.log(answerAttempt, 'I got here');
     }
   };
 
@@ -48,6 +42,11 @@ export function SubmitModal({
       setErrorMessage("");
     } else {
       setErrorMessage("Incorrect answer, try again");
+      setAnswerAttempt(answerAttempt + 1)
+      if (answerAttempt === 5) {
+        setModalOpen(false);
+        setShowResponseModal(true);
+      }
     }
   };
 
