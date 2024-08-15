@@ -35,4 +35,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg);
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

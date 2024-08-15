@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TimedModal } from "./timedModal";
 
 const submitAnswers: string[] = [];
 
@@ -13,6 +14,8 @@ export function SubmitModal({
   const [userAnswer, setUserAnswer] = useState(["", "", ""]);
   const [modalOpen, setModalOpen] = useState(true);
   const storedAnswers = answers;
+  const [answerAttempt, setAnswerAttempt] = useState(1);
+  const [showResponseModal, setShowResponseModal] = useState<boolean>(false);
 
   const handleSubmitModal = () => {
     let correct = true;
@@ -39,6 +42,11 @@ export function SubmitModal({
       setErrorMessage("");
     } else {
       setErrorMessage("Incorrect answer, try again");
+      setAnswerAttempt(answerAttempt + 1)
+      if (answerAttempt === 5) {
+        setModalOpen(false);
+        setShowResponseModal(true);
+      }
     }
   };
 
@@ -55,6 +63,7 @@ export function SubmitModal({
                 type="text"
                 value={userAnswer[0]}
                 onChange={(e) => checkInputAnswer(e.target.value, 0)}
+                placeholder="Answer to first question"
               />
             </label>
             <label htmlFor="secondAnswer">
@@ -63,6 +72,7 @@ export function SubmitModal({
                 type="text"
                 value={userAnswer[1]}
                 onChange={(e) => checkInputAnswer(e.target.value, 1)}
+                placeholder="Answer to second question"
               />
             </label>
             <label htmlFor="thirdAnswer">
@@ -71,6 +81,7 @@ export function SubmitModal({
                 type="text"
                 value={userAnswer[2]}
                 onChange={(e) => checkInputAnswer(e.target.value, 2)}
+                placeholder="Answer to third question"
               />
             </label>
             <button className="button" onClick={handleSubmitModal}>
@@ -79,6 +90,7 @@ export function SubmitModal({
           </div>
         </div>
       )}
+      {showResponseModal && <TimedModal />}
     </>
   );
 }
