@@ -91,6 +91,7 @@ import { TimedModal } from "./components/timedModal";
       setUserAnswer("");
       setAnswerAttempt(answerAttempt + 1)
       if (answerAttempt === 3) {
+        setModalOpen(false);
         setShowResponseModal(true);
       }
     }
@@ -134,7 +135,7 @@ import { TimedModal } from "./components/timedModal";
         // @ts-ignore
         updatedAnswers[index] = undefined;
         setAnswers(updatedAnswers);
-      }, 20000);
+    }, 20000);
     };
 
 

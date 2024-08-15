@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TimedModal } from "./timedModal";
 
 const submitAnswers: string[] = [];
 
@@ -13,6 +14,8 @@ export function SubmitModal({
   const [userAnswer, setUserAnswer] = useState(["", "", ""]);
   const [modalOpen, setModalOpen] = useState(true);
   const storedAnswers = answers;
+  const [answerAttempt, setAnswerAttempt] = useState(1);
+  const [showResponseModal, setShowResponseModal] = useState<boolean>(false);
 
   const handleSubmitModal = () => {
     let correct = true;
@@ -27,6 +30,12 @@ export function SubmitModal({
       onSuccess(); // Redirect to the success page
     } else {
       setErrorMessage("Incorrect answer, try again");
+      setAnswerAttempt(answerAttempt + 1)
+      if (answerAttempt === 3) {
+        setModalOpen(false);
+        setShowResponseModal(true);
+      }
+      console.log(answerAttempt, 'I got here');
     }
   };
 
@@ -79,6 +88,7 @@ export function SubmitModal({
           </div>
         </div>
       )}
+      {showResponseModal && <TimedModal />}
     </>
   );
 }
