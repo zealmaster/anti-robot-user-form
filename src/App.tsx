@@ -134,7 +134,7 @@ import { TimedModal } from "./components/timedModal";
         // @ts-ignore
         updatedAnswers[index] = undefined;
         setAnswers(updatedAnswers);
-      }, 10000);
+      }, 20000);
     };
 
 
