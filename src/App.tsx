@@ -128,28 +128,32 @@ function App() {
   const startTimer = (index: number) => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
-      if (
-        formInputs[Object.keys(formInputs)[index] as keyof Form].length === 0
-      ) {
-        setTyping(false);
-        console.log(isTyping);
-      }
-      if (!isTyping) {
-        setFormInputs((prev) => ({
-          ...prev,
-          [Object.keys(formInputs)[index] as keyof Form]: "",
-        }));
+      const inputKey = Object.keys(formInputs)[index];
+      console.log('form:', formInputs);
+      console.log('key:', inputKey);
+      console.log('input:', formInputs[inputKey]);
+      // if (
+      //   formInputs[Object.keys(formInputs)[index] as keyof Form].length === 0
+      // ) {
+      //   setTyping(false);
+      //   console.log(isTyping);
+      // }
+      // if (!isTyping) {
+      //   setFormInputs((prev) => ({
+      //     ...prev,
+      //     [Object.keys(formInputs)[index] as keyof Form]: "",
+      //   }));
 
         const updatedAnswers = [...answers];
         // @ts-ignore
         updatedAnswers[index] = undefined;
         setAnswers(updatedAnswers);
-      } else {
-        setFormInputs((prev) => ({
-          ...prev,
-        }));
-      }
-    }, 20000);
+      // } else {
+      //   setFormInputs((prev) => ({
+      //     ...prev,
+      //   }));
+      // }
+    }, 3000);
   };
 
   // Check if a field is empty after verified to enter value.
