@@ -10,8 +10,6 @@ import { TimedModal } from "./components/timedModal";
     password: string;
   }
 
-  // export const answers: string[] = [];
-
   function App() {
     const navigate = useNavigate();
     const [formInputs, setFormInputs] = useState<Form>({
@@ -72,7 +70,6 @@ import { TimedModal } from "./components/timedModal";
 
   const handleEquationSubmit = () => {
     if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
-      // answers.push(userAnswer);
       const updatedAnswers = [...answers];
       updatedAnswers[currentIndex] = userAnswer;
       setAnswers(updatedAnswers);
@@ -208,7 +205,6 @@ import { TimedModal } from "./components/timedModal";
           </button>
         </div>
       )}
-        {/* Equation input modal. This can be move to a react component. */}
 
       {submitModalOpen && (
         <SubmitModal
