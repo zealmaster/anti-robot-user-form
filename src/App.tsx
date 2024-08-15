@@ -13,8 +13,8 @@ import { TimedModal } from "./components/timedModal";
   // export const answers: string[] = [];
 
   function App() {
-  const navigate = useNavigate();
-  const [formInputs, setFormInputs] = useState<Form>({
+    const navigate = useNavigate();
+    const [formInputs, setFormInputs] = useState<Form>({
       name: "",
       email: "",
       password: "",
@@ -60,9 +60,9 @@ import { TimedModal } from "./components/timedModal";
     }));
   };
 
-    const inputsFilled = (): boolean => {
-      return Object.values(formInputs).every((value) => value.trim() !== "");
-    };
+  const inputsFilled = (): boolean => {
+    return Object.values(formInputs).every((value) => value.trim() !== "");
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,8 +137,6 @@ import { TimedModal } from "./components/timedModal";
       }, 20000);
     };
 
-
-    //To do: Create a function to handle maximum number of try for solving equation and providing the answers
 
     return (
       <main>
