@@ -3,6 +3,7 @@ import { Form, useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
 import "./App.css";
 import { TimedModal } from "./components/timedModal";
+import { cursorTo } from "readline";
 
 interface Form {
   name: string;
@@ -35,6 +36,7 @@ function App() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [isTyping, setTyping] = useState<boolean>(true);
+  const [currentInput, setCurrentInput] = useState<string>("");
 
   useEffect(() => {
     if (inputsFilled()) {
@@ -56,6 +58,10 @@ function App() {
       ...prev,
       [name]: value,
     }));
+
+    if(currentIndex !== null) {
+      startTimer(currentIndex, value);
+    }
   };
 
   const inputsFilled = (): boolean => {
@@ -125,32 +131,21 @@ function App() {
   };
 
   // Timer to solve another security question again if a field is left empty after 20 second after verified to enter input value.
-  const startTimer = (index: number) => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      if (
-        formInputs[Object.keys(formInputs)[index] as keyof Form].length === 0
-      ) {
-        setTyping(false);
-        console.log(isTyping);
-      }
-      if (!isTyping) {
-        setFormInputs((prev) => ({
-          ...prev,
-          [Object.keys(formInputs)[index] as keyof Form]: "",
-        }));
-
+  const startTimer = (index: number, inputValue?: string) => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+      if (!inputValue) {
         const updatedAnswers = [...answers];
         // @ts-ignore
         updatedAnswers[index] = undefined;
         setAnswers(updatedAnswers);
       } else {
-        setFormInputs((prev) => ({
-          ...prev,
-        }));
+        clearTimeout(timeoutRef.current);
       }
-    }, 20000);
+    }, 5000);
   };
+
+  console.log(answers)
 
   // Check if a field is empty after verified to enter value.
   const checkedEmptyField = () => {
