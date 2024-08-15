@@ -145,7 +145,6 @@ function App() {
     }, 5000);
   };
 
-  console.log(answers)
 
   // Check if a field is empty after verified to enter value.
   const checkedEmptyField = () => {
