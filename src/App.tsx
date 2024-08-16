@@ -200,7 +200,8 @@ function App() {
 
       {modalOpen && (
         <div className="modal">
-          <p>Human? Solve: {equation}</p>
+          <p style={{marginBottom: '5px'}}>Human? Solve: {equation}</p>
+          <p style={{fontSize: '.8rem', fontStyle: 'italic' }}>Answers are to the nearest intergers</p>
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
           <label htmlFor="userAnswer">
             <input
