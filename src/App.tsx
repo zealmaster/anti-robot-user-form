@@ -3,7 +3,6 @@ import { Form, useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
 import "./App.css";
 import { TimedModal } from "./components/timedModal";
-import { cursorTo } from "readline";
 
 interface Form {
   name: string;
@@ -113,7 +112,8 @@ function App() {
     const answer = parseFloat((num1 + result2).toFixed(2));
     setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
     setCorrectAnswer(answer);
-  };
+};
+
 
 
   // Open modal with security question if the field is not already verified.
