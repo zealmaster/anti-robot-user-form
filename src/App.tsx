@@ -36,7 +36,6 @@ function App() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [isTyping, setTyping] = useState<boolean>(true);
-  const [currentInput, setCurrentInput] = useState<string>("");
 
   useEffect(() => {
     if (inputsFilled()) {
