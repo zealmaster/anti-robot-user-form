@@ -146,7 +146,6 @@ function App() {
     setAnswerAttempt(1);
   };
 
-  console.log()
 
   // Check if a field is empty after verified to enter value.
   const checkedEmptyField = () => {
@@ -156,7 +155,6 @@ function App() {
         0
     ) {
       setTyping(true);
-      console.log(isTyping);
     }
   };
 
