@@ -76,7 +76,7 @@ function App() {
 
   // Verify answer to the security question of each field.
   const handleEquationSubmit = () => {
-    if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
+    if (parseFloat(userAnswer).toFixed(2) === correctAnswer.toString() && currentIndex !== null) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentIndex] = userAnswer;
       setAnswers(updatedAnswers);
@@ -200,8 +200,7 @@ function App() {
 
       {modalOpen && (
         <div className="modal">
-          <p style={{marginBottom: '5px'}}>Human? Solve: {equation}</p>
-          <p style={{fontSize: '.8rem', fontStyle: 'italic' }}>Answers are to the nearest intergers</p>
+          <p>Human? Solve: {equation}</p>
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
           <label htmlFor="userAnswer">
             <input
