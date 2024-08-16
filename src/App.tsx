@@ -34,7 +34,6 @@ function App() {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [isTyping, setTyping] = useState<boolean>(true);
 
   useEffect(() => {
     if (inputsFilled()) {
@@ -56,6 +55,10 @@ function App() {
       ...prev,
       [name]: value,
     }));
+
+    if(currentIndex !== null) {
+      startTimer(currentIndex, value);
+    }
   };
 
   const inputsFilled = (): boolean => {
@@ -83,7 +86,6 @@ function App() {
       ]);
       setUserAnswer("");
       setErrorMessage("");
-      setTyping(false);
       startTimer(currentIndex);
     } else {
       generateEquation();
@@ -125,47 +127,18 @@ function App() {
   };
 
   // Timer to solve another security question again if a field is left empty after 20 second after verified to enter input value.
-  const startTimer = (index: number) => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      const inputKey = Object.keys(formInputs)[index];
-      console.log('form:', formInputs);
-      console.log('key:', inputKey);
-      console.log('input:', formInputs[inputKey]);
-      // if (
-      //   formInputs[Object.keys(formInputs)[index] as keyof Form].length === 0
-      // ) {
-      //   setTyping(false);
-      //   console.log(isTyping);
-      // }
-      // if (!isTyping) {
-      //   setFormInputs((prev) => ({
-      //     ...prev,
-      //     [Object.keys(formInputs)[index] as keyof Form]: "",
-      //   }));
-
+  const startTimer = (index: number, inputValue?: string) => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+      if (!inputValue) {
         const updatedAnswers = [...answers];
         // @ts-ignore
         updatedAnswers[index] = undefined;
         setAnswers(updatedAnswers);
-      // } else {
-      //   setFormInputs((prev) => ({
-      //     ...prev,
-      //   }));
-      // }
-    }, 3000);
-  };
-
-  // Check if a field is empty after verified to enter value.
-  const checkedEmptyField = () => {
-    if (
-      currentIndex !== null &&
-      formInputs[Object.keys(formInputs)[currentIndex] as keyof Form].length !==
-        0
-    ) {
-      setTyping(true);
-      console.log(isTyping);
-    }
+      } else {
+        clearTimeout(timeoutRef.current);
+      }
+    }, 20000);
   };
 
   return (
@@ -182,7 +155,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -196,7 +168,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -210,7 +181,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
