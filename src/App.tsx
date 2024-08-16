@@ -106,14 +106,15 @@ function App() {
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
     const num2 = Math.floor(Math.random() * 10);
-    const num3 = Math.floor(Math.random() * 10);
+    const num3 = Math.floor(Math.random() * 9) + 1;
     const num4 = Math.floor(Math.random() * 10);
-    const answer = parseFloat(`${num1} + ${num2} / ${num3} * ${num4}`).toFixed(
-      2
-    );
+    const result1 = num2 / num3;
+    const result2 = result1 * num4;
+    const answer = parseFloat((num1 + result2).toFixed(2));
     setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
-    setCorrectAnswer(parseInt(answer));
+    setCorrectAnswer(answer);
   };
+
 
   // Open modal with security question if the field is not already verified.
   const handleOnInputFocus = (index: number) => {
@@ -145,18 +146,6 @@ function App() {
     setAnswerAttempt(1);
   };
 
-
-  // Check if a field is empty after verified to enter value.
-  const checkedEmptyField = () => {
-    if (
-      currentIndex !== null &&
-      formInputs[Object.keys(formInputs)[currentIndex] as keyof Form].length !==
-        0
-    ) {
-      setTyping(true);
-    }
-  };
-
   return (
     <main>
       <form onSubmit={handleSubmit}>
@@ -171,7 +160,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -185,7 +173,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -199,7 +186,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
