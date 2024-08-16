@@ -139,6 +139,7 @@ function App() {
         clearTimeout(timeoutRef.current);
       }
     }, 20000);
+    setAnswerAttempt(1);
   };
 
   return (
