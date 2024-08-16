@@ -30,7 +30,7 @@ export function SubmitModal({
       setModalOpen(false);
       onSuccess(); // Redirect to the success page
     } else {
-      setErrorMessage("Incorrect inputAnswer, try again");
+      setErrorMessage("Incorrect answer, try again");
       setSubmitAnswerAttempt(submitAnswerAttempt + 1)
       if (submitAnswerAttempt === 3) {
         setModalOpen(false);
