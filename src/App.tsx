@@ -102,8 +102,6 @@ function App() {
     }
   };
 
-  console.log(correctAnswer)
-
   // Generate random equation for security question.
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
