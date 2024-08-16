@@ -75,7 +75,7 @@ function App() {
 
   // Verify answer to the security question of each field.
   const handleEquationSubmit = () => {
-    if (userAnswer === correctAnswer.toString() && currentIndex !== null) {
+    if (parseFloat(userAnswer).toFixed(2) === correctAnswer.toString() && currentIndex !== null) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentIndex] = userAnswer;
       setAnswers(updatedAnswers);
