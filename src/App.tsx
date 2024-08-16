@@ -3,7 +3,6 @@ import { Form, useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
 import "./App.css";
 import { TimedModal } from "./components/timedModal";
-import { cursorTo } from "readline";
 
 interface Form {
   name: string;
