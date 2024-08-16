@@ -3,7 +3,6 @@ import { Form, useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
 import "./App.css";
 import { TimedModal } from "./components/timedModal";
-import { cursorTo } from "readline";
 
 interface Form {
   name: string;
@@ -35,8 +34,6 @@ function App() {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
-  const [isTyping, setTyping] = useState<boolean>(true);
-  const [currentInput, setCurrentInput] = useState<string>("");
 
   useEffect(() => {
     if (inputsFilled()) {
@@ -89,7 +86,6 @@ function App() {
       ]);
       setUserAnswer("");
       setErrorMessage("");
-      setTyping(false);
       startTimer(currentIndex);
     } else {
       generateEquation();
@@ -145,19 +141,6 @@ function App() {
     }, 5000);
   };
 
-
-  // Check if a field is empty after verified to enter value.
-  const checkedEmptyField = () => {
-    if (
-      currentIndex !== null &&
-      formInputs[Object.keys(formInputs)[currentIndex] as keyof Form].length !==
-        0
-    ) {
-      setTyping(true);
-      console.log(isTyping);
-    }
-  };
-
   return (
     <main>
       <form onSubmit={handleSubmit}>
@@ -172,7 +155,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -186,7 +168,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
@@ -200,7 +181,6 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
-            onKeyDown={checkedEmptyField}
           />
         </label>
 
