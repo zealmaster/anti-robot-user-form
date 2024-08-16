@@ -3,6 +3,7 @@ import { Form, useNavigate } from "react-router-dom";
 import { SubmitModal } from "./components/submit-modal";
 import "./App.css";
 import { TimedModal } from "./components/timedModal";
+import { cursorTo } from "readline";
 
 interface Form {
   name: string;
@@ -34,6 +35,7 @@ function App() {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [answers, setAnswers] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  const [isTyping, setTyping] = useState<boolean>(true);
 
   useEffect(() => {
     if (inputsFilled()) {
@@ -74,7 +76,7 @@ function App() {
 
   // Verify answer to the security question of each field.
   const handleEquationSubmit = () => {
-    if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
+    if (parseFloat(userAnswer).toFixed(2) === correctAnswer.toString() && currentIndex !== null) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentIndex] = userAnswer;
       setAnswers(updatedAnswers);
@@ -86,6 +88,7 @@ function App() {
       ]);
       setUserAnswer("");
       setErrorMessage("");
+      setTyping(false);
       startTimer(currentIndex);
     } else {
       generateEquation();
@@ -103,7 +106,7 @@ function App() {
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
     const num2 = Math.floor(Math.random() * 10);
-    const num3 = Math.floor(Math.random() * 10);
+    const num3 = Math.floor(Math.random() * 9) + 1;
     const num4 = Math.floor(Math.random() * 10);
     const result1 = num2 / num3;
     const result2 = result1 * num4;
@@ -111,6 +114,7 @@ function App() {
     setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
     setCorrectAnswer(answer);
   };
+
 
   // Open modal with security question if the field is not already verified.
   const handleOnInputFocus = (index: number) => {
