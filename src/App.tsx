@@ -76,7 +76,7 @@ function App() {
 
   // Verify answer to the security question of each field.
   const handleEquationSubmit = () => {
-    if (parseInt(userAnswer, 10) === correctAnswer && currentIndex !== null) {
+    if (userAnswer === correctAnswer.toString() && currentIndex !== null) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentIndex] = userAnswer;
       setAnswers(updatedAnswers);
@@ -102,6 +102,8 @@ function App() {
     }
   };
 
+  console.log(correctAnswer)
+
   // Generate random equation for security question.
   const generateEquation = () => {
     const num1 = Math.floor(Math.random() * 10);
@@ -113,7 +115,8 @@ function App() {
     const answer = parseFloat((num1 + result2).toFixed(2));
     setEquation(`${num1} + ${num2} / ${num3} * ${num4}`);
     setCorrectAnswer(answer);
-  };
+};
+
 
 
   // Open modal with security question if the field is not already verified.
@@ -200,8 +203,7 @@ function App() {
 
       {modalOpen && (
         <div className="modal">
-          <p style={{marginBottom: '5px'}}>Human? Solve: {equation}</p>
-          <p style={{fontSize: '.8rem', fontStyle: 'italic' }}>Answers are to the nearest intergers</p>
+          <p>Human? Solve: {equation}</p>
           <div style={{ color: "red" }}>{errorMessage && errorMessage}</div>
           <label htmlFor="userAnswer">
             <input

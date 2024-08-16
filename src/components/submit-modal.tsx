@@ -14,7 +14,7 @@ export function SubmitModal({
   const [userAnswer, setUserAnswer] = useState(["", "", ""]);
   const [modalOpen, setModalOpen] = useState(true);
   const storedAnswers = answers;
-  const [answerAttempt, setAnswerAttempt] = useState(1);
+  const [inputAnswerAttempt, setInputAnswerAttempt] = useState(1);
   const [showResponseModal, setShowResponseModal] = useState<boolean>(false);
   const [submitAnswerAttempt, setSubmitAnswerAttempt] = useState<number>(1);
 
@@ -30,7 +30,7 @@ export function SubmitModal({
       setModalOpen(false);
       onSuccess(); // Redirect to the success page
     } else {
-      setErrorMessage("Incorrect answer, try again");
+      setErrorMessage("Incorrect inputAnswer, try again");
       setSubmitAnswerAttempt(submitAnswerAttempt + 1)
       if (submitAnswerAttempt === 3) {
         setModalOpen(false);
@@ -48,8 +48,8 @@ export function SubmitModal({
       setErrorMessage("");
     } else {
       setErrorMessage("Incorrect answer, try again");
-      setAnswerAttempt(answerAttempt + 1)
-      if (answerAttempt === 5) {
+      setInputAnswerAttempt(inputAnswerAttempt + 1)
+      if (inputAnswerAttempt === 13) {
         setModalOpen(false);
         setShowResponseModal(true);
       }
