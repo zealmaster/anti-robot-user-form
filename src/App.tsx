@@ -142,7 +142,8 @@ function App() {
       } else {
         clearTimeout(timeoutRef.current);
       }
-    }, 5000);
+    }, 20000);
+    setAnswerAttempt(1);
   };
 
   console.log()
