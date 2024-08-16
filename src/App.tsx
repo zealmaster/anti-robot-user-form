@@ -138,7 +138,7 @@ function App() {
       } else {
         clearTimeout(timeoutRef.current);
       }
-    }, 5000);
+    }, 20000);
   };
 
   return (
