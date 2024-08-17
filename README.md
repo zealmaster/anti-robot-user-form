@@ -1,9 +1,15 @@
 Anti Robot User Form
 
+#Description
 This is a simple web form with an additional layer of security to stop bots from filling the form. The aim is not to frustrate the users, they need to prove that they are human not robots.
 
-How to use the form
+#Install Dependencies
+RUN npm install
 
+#Start Application
+RUN npm run start
+
+How to use the form
 1. Fill out the form from top to bottom.
 2. Provide answer to each question for every form field.
 3. Keep a note of your answers.
