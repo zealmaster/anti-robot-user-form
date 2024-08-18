@@ -160,6 +160,7 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[0]}
             onClick={() => handleOnInputFocus(0)}
+            onKeyDown={() => handleOnInputFocus(0)}
           />
         </label>
 
@@ -173,6 +174,7 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[1]}
             onClick={() => handleOnInputFocus(1)}
+            onKeyDown={() => handleOnInputFocus(1)}
           />
         </label>
 
@@ -186,6 +188,7 @@ function App() {
             onChange={handleInputChange}
             disabled={inputEnabled[2]}
             onClick={() => handleOnInputFocus(2)}
+            onKeyDown={() => handleOnInputFocus(2)}
           />
         </label>
 
