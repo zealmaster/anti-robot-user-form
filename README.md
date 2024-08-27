@@ -4,10 +4,17 @@ Anti Robot User Form
 This is a simple web form with an additional layer of security to stop bots from filling the form. The aim is not to frustrate the users, they need to prove that they are human not robots.
 
 #Install Dependencies
-RUN npm install
+
+npm install
 
 #Start Application
-RUN npm run start
+
+npm run start
+
+#Link to Web App
+
+https://anti-robot-user-form.vercel.app/
+
 
 How to use the form
 1. Fill out the form from top to bottom.
@@ -18,5 +25,5 @@ How to use the form
 6. When submitting, ensure all previous answers are provided correctly.
 7. You have three attempts to enter each correct answer. After that, the page will refresh.
 8. If you provide all the correct answers, welcome to paradise, you are human.
-9. This will take you to the form submission success page.
+10. This will take you to the form submission success page.
 
